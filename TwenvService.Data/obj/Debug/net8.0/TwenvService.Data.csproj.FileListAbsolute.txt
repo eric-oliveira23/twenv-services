@@ -1,0 +1,17 @@
+D:\RiderProjects\TwenvService\twenvservice.data\bin\Debug\net8.0\TwenvService.Data.deps.json
+D:\RiderProjects\TwenvService\twenvservice.data\bin\Debug\net8.0\TwenvService.Data.dll
+D:\RiderProjects\TwenvService\twenvservice.data\bin\Debug\net8.0\TwenvService.Data.pdb
+D:\RiderProjects\TwenvService\twenvservice.data\bin\Debug\net8.0\TwenvService.Domain.dll
+D:\RiderProjects\TwenvService\twenvservice.data\bin\Debug\net8.0\TwenvService.Domain.pdb
+D:\RiderProjects\TwenvService\twenvservice.data\obj\Debug\net8.0\TwenvService.Data.csproj.AssemblyReference.cache
+D:\RiderProjects\TwenvService\twenvservice.data\obj\Debug\net8.0\TwenvService.Data.GeneratedMSBuildEditorConfig.editorconfig
+D:\RiderProjects\TwenvService\twenvservice.data\obj\Debug\net8.0\TwenvService.Data.AssemblyInfoInputs.cache
+D:\RiderProjects\TwenvService\twenvservice.data\obj\Debug\net8.0\TwenvService.Data.AssemblyInfo.cs
+D:\RiderProjects\TwenvService\twenvservice.data\obj\Debug\net8.0\TwenvService.Data.csproj.CoreCompileInputs.cache
+D:\RiderProjects\TwenvService\twenvservice.data\obj\Debug\net8.0\TwenvSer.C4A874A1.Up2Date
+D:\RiderProjects\TwenvService\twenvservice.data\obj\Debug\net8.0\TwenvService.Data.dll
+D:\RiderProjects\TwenvService\twenvservice.data\obj\Debug\net8.0\refint\TwenvService.Data.dll
+D:\RiderProjects\TwenvService\twenvservice.data\obj\Debug\net8.0\TwenvService.Data.pdb
+D:\RiderProjects\TwenvService\twenvservice.data\obj\Debug\net8.0\ref\TwenvService.Data.dll
+D:\RiderProjects\TwenvService\twenvservice.data\bin\Debug\net8.0\TwenvService.Data.runtimeconfig.json
+D:\RiderProjects\TwenvService\twenvservice.data\obj\Debug\net8.0\TwenvService.Data.genruntimeconfig.cache

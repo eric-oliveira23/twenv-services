@@ -1,0 +1,6 @@
+@TwenvService_HostAddress = http://localhost:5140
+
+GET {{TwenvService_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

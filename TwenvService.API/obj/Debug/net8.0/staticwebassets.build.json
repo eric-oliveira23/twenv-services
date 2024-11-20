@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "VAilYarXoNFABQ1qg+p+PIVfPh6FiRzaXmXaSdMSKzU=",
+  "Source": "TwenvService.API",
+  "BasePath": "_content/TwenvService.API",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
