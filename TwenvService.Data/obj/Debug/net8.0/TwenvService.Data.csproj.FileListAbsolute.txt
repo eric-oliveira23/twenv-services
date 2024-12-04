@@ -15,3 +15,4 @@ D:\RiderProjects\TwenvService\twenvservice.data\obj\Debug\net8.0\TwenvService.Da
 D:\RiderProjects\TwenvService\twenvservice.data\obj\Debug\net8.0\ref\TwenvService.Data.dll
 D:\RiderProjects\TwenvService\twenvservice.data\bin\Debug\net8.0\TwenvService.Data.runtimeconfig.json
 D:\RiderProjects\TwenvService\twenvservice.data\obj\Debug\net8.0\TwenvService.Data.genruntimeconfig.cache
+D:\RiderProjects\TwenvService\twenvservice.data\obj\Debug\net8.0\TwenvService.Data.sourcelink.json

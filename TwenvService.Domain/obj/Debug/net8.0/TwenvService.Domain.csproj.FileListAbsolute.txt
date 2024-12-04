@@ -9,3 +9,4 @@ D:\RiderProjects\TwenvService\TwenvService.Domain\obj\Debug\net8.0\TwenvService.
 D:\RiderProjects\TwenvService\TwenvService.Domain\obj\Debug\net8.0\refint\TwenvService.Domain.dll
 D:\RiderProjects\TwenvService\TwenvService.Domain\obj\Debug\net8.0\TwenvService.Domain.pdb
 D:\RiderProjects\TwenvService\TwenvService.Domain\obj\Debug\net8.0\ref\TwenvService.Domain.dll
+D:\RiderProjects\TwenvService\TwenvService.Domain\obj\Debug\net8.0\TwenvService.Domain.sourcelink.json

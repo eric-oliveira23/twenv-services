@@ -1,16 +1,26 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using Microsoft.EntityFrameworkCore;
 using TwenvService.Data;
+using TwenvService.Application.Extensions;
+using TwenvService.Data.Extensions;
+using TwenvService.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddDbContext<FinancesDbContext>(options =>
+// Database
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("FinancesConnection")));
 
-// Configure JWT Authentication
+
+// Application Services (UseCases, Services)
+builder.Services.AddApplicationServices();
+
+// Data Services (Repositories)
+builder.Services.AddDataServices();
+
+// Authentication and Authorization
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
@@ -22,61 +32,28 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateIssuerSigningKey = true,
             ValidIssuer = builder.Configuration["Jwt:Issuer"],
             ValidAudience = builder.Configuration["Jwt:Audience"],
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"] ?? string.Empty))
+            IssuerSigningKey =
+                new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"] ?? string.Empty))
         };
     });
 
-// Add Authorization services
 builder.Services.AddAuthorization();
 
+// Controllers and Swagger
 builder.Services.AddControllers();
-
-// Set up Swagger and specify the Bearer token authorization configuration
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(options =>
-{
-    options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
-    {
-        Title = "TwenvService API",
-        Version = "v1",
-        Description = "API for managing finances"
-    });
-
-    // Add Bearer Token support in Swagger UI
-    options.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
-    {
-        Description = "JWT Authorization header using the Bearer scheme. Example: 'Bearer {token}'",
-        Name = "Authorization",
-        In = Microsoft.OpenApi.Models.ParameterLocation.Header,
-        Type = Microsoft.OpenApi.Models.SecuritySchemeType.ApiKey
-    });
-
-    options.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement
-    {
-        {
-            new Microsoft.OpenApi.Models.OpenApiSecurityScheme
-            {
-                Reference = new Microsoft.OpenApi.Models.OpenApiReference
-                {
-                    Type = Microsoft.OpenApi.Models.ReferenceType.SecurityScheme,
-                    Id = "Bearer"
-                }
-            },
-            []
-        }
-    });
-});
+builder.Services.AddSwaggerDocumentation();
 
 var app = builder.Build();
 
+// Configure Middleware
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI(options => { options.SwaggerEndpoint("/swagger/v1/swagger.json", "TwenvService API V1"); });
+    app.UseSwaggerUI(options => options.SwaggerEndpoint("/swagger/v1/swagger.json", "TwenvService API V1"));
 }
 
-app.UseAuthentication(); // Use JWT Authentication
-app.UseAuthorization(); // Use Authorization
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapControllers();
 

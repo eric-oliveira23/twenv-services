@@ -1,88 +1,65 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using TwenvService.Data;
-using TwenvService.Domain.Entities;
 using System.Security.Claims;
+using TwenvService.Application.Usecases;
+using TwenvService.Application.Usecases.Finance;
+using TwenvService.Domain.Entities;
 
 namespace TwenvService.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class FinanceController(FinancesDbContext context) : ControllerBase
+    public class FinanceController(
+        ListFinancesUseCase listFinancesUseCase,
+        GetFinanceByIdUseCase getFinanceByIdUseCase,
+        CreateFinanceUseCase createFinanceUseCase,
+        UpdateFinanceUseCase updateFinanceUseCase,
+        DeleteFinanceUseCase deleteFinanceUseCase)
+        : ControllerBase
     {
-        // POST: api/finance
         [HttpPost]
-        public async Task<IActionResult> CreateFinance([FromBody] Finance? finance)
+        public async Task<IActionResult> CreateFinance([FromBody] Finance finance)
         {
-            if (finance == null)
-            {
-                return BadRequest("Invalid finance data.");
-            }
-
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            if (userId == null)
-            {
-                return Unauthorized("User ID not found in token.");
-            }
-
-            finance.UserId = int.Parse(userId);
-
-            context.Finances.Add(finance);
-            await context.SaveChangesAsync();
-
-            return CreatedAtAction(nameof(GetFinance), new { id = finance.Id }, finance);
+            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier) ?? string.Empty);
+            finance.UserId = userId;
+            await createFinanceUseCase.ExecuteAsync(finance);
+            return CreatedAtAction(nameof(GetFinanceById), new { id = finance.Id }, finance);
         }
 
-        // GET: api/finance
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Finance>>> GetFinances([FromQuery] string? type = null)
+        public async Task<ActionResult<IEnumerable<Finance>>> GetAllFinances([FromQuery] string? type = null)
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            if (userId == null)
-            {
-                return Unauthorized("User ID not found in token.");
-            }
-
-            var finances = context.Finances
-                .Where(f => f.UserId == int.Parse(userId));
-
-            if (!string.IsNullOrEmpty(type))
-            {
-                type = type.ToLower();
-                finances = type switch
-                {
-                    "income" => finances.Where(f => !f.IsExpense),
-                    "expense" => finances.Where(f => f.IsExpense),
-                    _ => finances
-                };
-            }
-
-            var result = await finances.ToListAsync();
-            return Ok(result);
+            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier) ?? string.Empty);
+            var finances = await listFinancesUseCase.ExecuteAsync(userId, type);
+            return Ok(finances);
         }
 
-        // GET: api/finance/5
-        [HttpGet("{id:int}")]
-        public async Task<ActionResult<Finance>> GetFinance(int id)
+        [HttpGet("{id:guid}")]
+        public async Task<ActionResult<Finance>> GetFinanceById(Guid id)
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            if (userId == null)
-            {
-                return Unauthorized("User ID not found in token.");
-            }
-
-            var finance = await context.Finances
-                .Where(f => f.Id == id && f.UserId == int.Parse(userId))
-                .FirstOrDefaultAsync();
-
-            if (finance == null)
-            {
-                return NotFound("Finance not found or access denied.");
-            }
-
+            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier) ?? string.Empty);
+            var finance = await getFinanceByIdUseCase.ExecuteAsync(id, userId);
+            if (finance == null) return NotFound("Finance not found.");
             return Ok(finance);
+        }
+
+        [HttpPut("{id:guid}")]
+        public async Task<IActionResult> UpdateFinance(Guid id, [FromBody] Finance finance)
+        {
+            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier) ?? string.Empty);
+            finance.UserId = userId;
+            finance.Id = id;
+            await updateFinanceUseCase.ExecuteAsync(finance);
+            return Ok();
+        }
+
+        [HttpDelete("{id:guid}")]
+        public async Task<IActionResult> DeleteFinance(Guid id)
+        {
+            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier) ?? string.Empty);
+            await deleteFinanceUseCase.ExecuteAsync(id, userId);
+            return Ok();
         }
     }
 }

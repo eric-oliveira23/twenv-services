@@ -11,7 +11,7 @@ namespace TwenvService.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AuthController(FinancesDbContext context, IConfiguration configuration) : ControllerBase
+    public class AuthController(ApplicationDbContext context, IConfiguration configuration) : ControllerBase
     {
         // POST: api/auth/register
         [HttpPost("register")]
