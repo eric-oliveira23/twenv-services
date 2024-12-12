@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("TwenvService.Domain")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d4c7717931710c2d9f976dccdd4064bbc10eef8d")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ef73a77878203f98eeabb9a657379ae3af11ac75")]
 [assembly: System.Reflection.AssemblyProductAttribute("TwenvService.Domain")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TwenvService.Domain")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

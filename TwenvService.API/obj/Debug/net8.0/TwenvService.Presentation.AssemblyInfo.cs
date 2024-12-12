@@ -10,12 +10,12 @@
 using System;
 using System.Reflection;
 
-[assembly: System.Reflection.AssemblyCompanyAttribute("TwenvService.API")]
+[assembly: System.Reflection.AssemblyCompanyAttribute("TwenvService.Presentation")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
 [assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ef73a77878203f98eeabb9a657379ae3af11ac75")]
-[assembly: System.Reflection.AssemblyProductAttribute("TwenvService.API")]
-[assembly: System.Reflection.AssemblyTitleAttribute("TwenvService.API")]
+[assembly: System.Reflection.AssemblyProductAttribute("TwenvService.Presentation")]
+[assembly: System.Reflection.AssemblyTitleAttribute("TwenvService.Presentation")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
 
 // Gerado pela classe WriteCodeFragment do MSBuild.

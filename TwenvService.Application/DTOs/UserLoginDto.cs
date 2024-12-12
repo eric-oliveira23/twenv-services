@@ -1,4 +1,4 @@
-﻿namespace TwenvService.API.DTOs
+﻿namespace TwenvService.Controllers.DTOs
 {
     public class UserLoginDto(string username, string password)
     {

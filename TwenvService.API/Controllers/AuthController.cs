@@ -1,74 +1,46 @@
-﻿using System.IdentityModel.Tokens.Jwt;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
-using TwenvService.API.DTOs;
-using TwenvService.Data;
+using TwenvService.Application.Usecases.User;
+using TwenvService.Controllers.DTOs;
 using TwenvService.Domain.Entities;
-
 namespace TwenvService.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AuthController(ApplicationDbContext context, IConfiguration configuration) : ControllerBase
+    public class AuthController(
+        RegisterUseCase registerUserUseCase,
+        LoginUseCase loginUseCase,
+        IConfiguration configuration)
+        : ControllerBase
     {
-        // POST: api/auth/register
         [HttpPost("register")]
         public IActionResult Register([FromBody] UserRegisterDto registerDto)
         {
-            // Check if password matches
-            if (registerDto.Password != registerDto.ConfirmPassword)
+            var (success, message, user) = registerUserUseCase.Execute(registerDto);
+
+            if (!success)
             {
-                return BadRequest("Passwords do not match.");
+                return BadRequest(message);
             }
 
-            // Check if username already exists
-            if (context.Users.Any(u => u.Username == registerDto.Username))
-            {
-                return BadRequest("Username already exists.");
-            }
-
-            // Hash password before saving
-            var passwordHash = BCrypt.Net.BCrypt.HashPassword(registerDto.Password);
-
-            // Create the user
-            var user = new User
-            {
-                Username = registerDto.Username,
-                PasswordHash = passwordHash
-            };
-
-            context.Users.Add(user);
-            context.SaveChanges();
-
-            // Generate JWT token
-            var token = GenerateJwtToken(user);
-
+            var token = GenerateJwtToken(user!);
             return Ok(new { token });
         }
 
-        // POST: api/auth/login
         [HttpPost("login")]
         public IActionResult Login([FromBody] UserLoginDto loginDto)
         {
-            // Find the user by username
-            var user = context.Users.SingleOrDefault(u => u.Username == loginDto.Username);
+            var (success, message, user) = loginUseCase.Execute(loginDto);
 
-            if (user == null)
+            if (!success)
             {
-                return Unauthorized("Invalid username or password.");
+                return Unauthorized(message);
             }
 
-            // Check if the password is correct
-            if (!BCrypt.Net.BCrypt.Verify(loginDto.Password, user.PasswordHash))
-            {
-                return Unauthorized("Invalid username or password.");
-            }
-
-            // Generate JWT token
-            var token = GenerateJwtToken(user);
-
+            var token = GenerateJwtToken(user!);
             return Ok(new { token });
         }
 
@@ -78,7 +50,7 @@ namespace TwenvService.Controllers
             {
                 new Claim(ClaimTypes.Name, user.Username),
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Role, user.Role) 
+                new Claim(ClaimTypes.Role, user.Role)
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"] ?? string.Empty));
@@ -94,6 +66,5 @@ namespace TwenvService.Controllers
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
-
     }
 }

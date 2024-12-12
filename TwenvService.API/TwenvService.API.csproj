@@ -21,8 +21,4 @@
       <ProjectReference Include="..\TwenvService.Data\TwenvService.Data.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="API\" />
-    </ItemGroup>
-
 </Project>

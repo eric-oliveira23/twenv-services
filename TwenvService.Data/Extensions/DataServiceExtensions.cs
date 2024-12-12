@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using TwenvService.Data.Repositories;
 using TwenvService.Data.Repositories.Finance;
+using TwenvService.Data.Repositories.User;
 using TwenvService.Domain.Repositories;
 
 namespace TwenvService.Data.Extensions
@@ -10,7 +11,7 @@ namespace TwenvService.Data.Extensions
         public static IServiceCollection AddDataServices(this IServiceCollection services)
         {
             services.AddScoped<IFinanceRepository, FinanceRepository>();
-            // services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
             return services;
         }
     }

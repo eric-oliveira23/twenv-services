@@ -13,13 +13,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("FinancesConnection")));
 
-
-// Application Services (UseCases, Services)
-builder.Services.AddApplicationServices();
-
-// Data Services (Repositories)
-builder.Services.AddDataServices();
-
 // Authentication and Authorization
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -42,6 +35,12 @@ builder.Services.AddAuthorization();
 // Controllers and Swagger
 builder.Services.AddControllers();
 builder.Services.AddSwaggerDocumentation();
+
+// Application Services (UseCases, Services)
+builder.Services.AddApplicationServices();
+
+// Data Services (Repositories)
+builder.Services.AddDataServices();
 
 var app = builder.Build();
 

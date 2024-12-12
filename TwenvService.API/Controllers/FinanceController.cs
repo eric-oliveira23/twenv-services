@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
-using TwenvService.Application.Usecases;
 using TwenvService.Application.Usecases.Finance;
 using TwenvService.Domain.Entities;
 

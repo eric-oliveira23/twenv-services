@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using TwenvService.Application.Usecases;
 using TwenvService.Application.Usecases.Finance;
+using TwenvService.Application.Usecases.User;
 
 namespace TwenvService.Application.Extensions
 {
@@ -13,6 +14,8 @@ namespace TwenvService.Application.Extensions
             services.AddTransient<UpdateFinanceUseCase>();
             services.AddTransient<DeleteFinanceUseCase>();
             services.AddTransient<GetFinanceByIdUseCase>();
+            services.AddTransient<RegisterUseCase>();
+            services.AddTransient<LoginUseCase>();
             return services;
         }
     }
